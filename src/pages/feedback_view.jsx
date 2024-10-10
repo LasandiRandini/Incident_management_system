@@ -25,8 +25,12 @@ const feedbackData = [
 
 const FeedbackList = () => {
   return (
+    
     <div className="flex flex-col w-full bg-gray-100 min-h-screen p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Customer Feedback</h1>
+      <div className="flex space-x-3 bg-[#49B558] text-white p-3 mb-5 rounded-t-lg rounded-b-lg">
+        <h1><b>Customer Feedback</b></h1>
+      </div>
+      
       <div className="bg-white shadow-md rounded-lg p-4">
         <table className="w-full text-left table-auto border-collapse">
           <thead>
