@@ -121,6 +121,7 @@ const Registration = () => {
               <button
                 type="submit"
                 className="w-60 mt-3 ml-12 bg-green-600 text-white py-2 rounded-lg shadow-lg hover:bg-green-700"
+                onClick={() => window.location.href = '/login'} 
               >
                 Register
               </button>
