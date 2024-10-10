@@ -5,7 +5,7 @@ const Form_3 = () => {
     //     setSelectedStatus(event.target.value);
     // };
     return (
-        <form className="bg-white p-6 rounded-lg shadow-md max-w-4xl mx-auto">
+        <form className="bg-white p-6 mt-5 m-5 rounded-lg shadow-md max-w-4xl mx-auto">
           <div className="grid grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700">Incident</label>
