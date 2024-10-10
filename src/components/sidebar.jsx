@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Typography } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';  // Add useLocation
 import SLT from '../assets/SLT_logo.png';
+import SLT2 from '../assets/SLT_logo2.png';
 import Dashboard from '../assets/dashboards.svg';
 import Customer from '../assets/person.svg';
 import Incident from '../assets/megaphone.svg';
@@ -138,6 +139,18 @@ const SideBar = ({ toggleSidebar }) => {
 
         ))}
       </List>
+
+      {/* Logo Section */}
+      <Box
+        component="img"
+        src={SLT2}
+        alt="SLT Mobitel Logo"
+        sx={{
+          width: '250px',
+          margin: '10px auto',
+          display: 'block',
+        }}
+      />
     </Drawer>
   );
 };
