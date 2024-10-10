@@ -46,8 +46,8 @@ const Form = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700">Department</label>
             <select className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <option>Department 1</option>
-              <option>Department 2</option>
+              <option>IT Department</option>
+              <option>Networking Department</option>
             </select>
           </div>
           <div>
@@ -83,4 +83,5 @@ const Form = () => {
   };
   
   export default Form;
+  
   
