@@ -90,7 +90,7 @@ const Form_2 = () => {
   
         <div className="flex space-x-4 justify-end">
           <button type="submit" className="py-2 px-6 bg-blue-500 text-white rounded-md shadow-lg">Save</button>
-          <button type="button" className="py-2 px-6 bg-gray-500 text-white rounded-md shadow-lg">Next</button>
+          
           <button type="button" className="py-2 px-6 bg-red-500 text-white rounded-md shadow-lg">Cancel</button>
         </div>
       </form>
