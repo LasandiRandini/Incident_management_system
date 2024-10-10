@@ -32,30 +32,9 @@ const feedbackData = [
         </div>
         
         <div className="bg-white shadow-md rounded-lg p-4">
-          <table className="w-full text-left table-auto border-collapse">
-            <thead>
-              <tr className="bg-gray-200 text-gray-700">
-                <th className="p-4 text-sm font-medium">Customer Name</th>
-                <th className="p-4 text-sm font-medium">Rating</th>
-                <th className="p-4 text-sm font-medium">Comment</th>
-                <th className="p-4 text-sm font-medium">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {feedbackData.map((feedback) => (
-                <tr key={feedback.id} className="border-b border-gray-200 hover:bg-gray-50">
-                  <td className="p-4 text-gray-800">{feedback.customerName}</td>
-                  <td className="p-4">
-                    <span className={`inline-block px-2 py-1 rounded-full text-white ${feedback.rating >= 4 ? 'bg-green-500' : feedback.rating >= 3 ? 'bg-yellow-500' : 'bg-red-500'}`}>
-                      {feedback.rating}
-                    </span>
-                  </td>
-                  <td className="p-4 text-gray-700">{feedback.comment}</td>
-                  <td className="p-4 text-gray-600">{feedback.date}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          
+
+          
         </div>
       </div>
     );
