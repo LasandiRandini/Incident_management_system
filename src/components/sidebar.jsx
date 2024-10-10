@@ -146,8 +146,8 @@ const SideBar = ({ toggleSidebar }) => {
         src={SLT2}
         alt="SLT Mobitel Logo"
         sx={{
-          width: '250px',
-          margin: '10px auto',
+          width: '1500px',
+          margin: '45px auto',
           display: 'block',
         }}
       />
