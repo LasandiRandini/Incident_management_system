@@ -1,51 +1,44 @@
 
 import { useState } from 'react';
-
 import logo from '../assets/SLT_logo.png';
-import image1 from '../assets/image 1.png'; 
+import image1 from '../assets/image 1.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
- 
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Login submitted:', { email, password });
   };
 
-  
-  
-
   return (
     <div className="flex h-screen">
-      {/* Left Section */}
+      {/* Left Section - Hidden on small screens */}
       <div
-  className="w-1/2 bg-cover bg-center relative"
-  style={{ backgroundImage: `url(${image1})` }} // Correctly reference imported image1
->
-  {/* Gradient overlay */}
-  <div className="absolute inset-0 bg-gradient-to-b from-[#0F407B] to-[#24AF77] opacity-80"></div>
+        className="hidden md:block w-1/2 bg-cover bg-center relative"
+        style={{ backgroundImage: `url(${image1})` }} // Reference imported image1
+      >
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0F407B] to-[#24AF77] opacity-80"></div>
 
-  {/* Content inside the overlay */}
-  <div className="relative flex flex-col justify-center items-center h-full text-white p-8">
-    {/* Logo */}
-    <img src={logo} alt="SLT Mobitel" className="mb-8 w-64" />
-    <h1 className="text-4xl font-bold mb-4">Welcome to SLT Mobitel</h1>
-    <button 
-      className="border border-white px-6 py-2 rounded-full"
-      onClick={() => window.location.href = '/registration'}  // Navigate to registration
-    >
-      Sign up
-    </button>
-  </div>
-</div>
+        {/* Content inside the overlay */}
+        <div className="relative flex flex-col justify-center items-center h-full text-white p-8">
+          {/* Logo */}
+          <img src={logo} alt="SLT Mobitel" className="mb-8 w-64" />
+          <h1 className="text-4xl font-bold mb-4">Welcome to SLT Mobitel</h1>
+          <button
+            className="border border-white px-6 py-2 rounded-full"
+            onClick={() => window.location.href = '/'}  // Navigate to registration
+          >
+            Sign up
+          </button>
+        </div>
+      </div>
 
-
-      {/* Right Section */}
-      <div className="w-1/2 flex justify-center items-center bg-gray-100">
-        <div className="bg-white p-10 rounded-lg shadow-md w-96">
+      {/* Right Section - Full width on small screens, half width on medium and larger screens */}
+      <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100">
+        <div className="bg-white p-10 rounded-lg shadow-md w-full md:w-96">
           <h2 className="text-3xl font-bold text-center mb-6">Sign in</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -78,7 +71,7 @@ const Login = () => {
             <button
               type="submit"
               className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-700"
-               onClick={() => window.location.href = '/dashboard'}
+              onClick={() => window.location.href = '/dashboard'}
             >
               Login
             </button>
@@ -89,17 +82,15 @@ const Login = () => {
                   <img src="https://cdn-icons-png.flaticon.com/512/174/174848.png" alt="Facebook" className="w-8 h-8" />
                 </button>
                 <button>
-                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Google Chrome" className="w-8 h-8 mr-2" />
-
+                  <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Google Chrome" className="w-8 h-8 mr-2" />
                 </button>
-               
               </div>
             </div>
           </form>
           {/* Add navigation link to the registration page */}
           <div className="text-center mt-6">
             <p className="text-gray-500">
-              Don’t have an account? <a href="/registration" className="text-blue-500">Register</a>
+              Don’t have an account? <a href="/" className="text-blue-500">Register</a>
             </p>
           </div>
         </div>

@@ -35,7 +35,7 @@ const Dashboard = () => {
      
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <h3 className="text-xl font-bold mb-4">Department-wise Analysis</h3>
-          
+          {/* Replace with chart if needed */}
           <div className="flex justify-center items-center h-32 bg-gray-200 rounded-lg">
             <p>Chart Placeholder</p>
           </div>
@@ -67,3 +67,5 @@ const IncidentCard = ({ status, date }) => {
 };
 
 export default Dashboard;
+
+

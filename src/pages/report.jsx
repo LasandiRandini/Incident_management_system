@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const ReportTable = () => {
-  // Sample data for the table
+  
   const [data] = useState([
     {
       id: 1,
@@ -11,8 +11,8 @@ const ReportTable = () => {
       customerName: "Name 1",
       customerTel: "0746998198",
       customerEmail: "customer1@test.com",
-      incidentDescription: "Test Brand",
-      assignedEmployee: "brand_manager",
+      incidentDescription: "Test Signal",
+      assignedEmployee: "Nimal",
       status: "Assigned",
     },
     {
@@ -21,8 +21,8 @@ const ReportTable = () => {
       customerName: "Name 2",
       customerTel: "0746998198",
       customerEmail: "customer2@test.com",
-      incidentDescription: "Test Brand",
-      assignedEmployee: "brand_manager",
+      incidentDescription: "Signal Intatrapt",
+      assignedEmployee: "Kmal",
       status: "Not Assigned",
     },
     {
@@ -31,8 +31,8 @@ const ReportTable = () => {
       customerName: "Name 3",
       customerTel: "0746998198",
       customerEmail: "customer3@test.com",
-      incidentDescription: "Test Brand",
-      assignedEmployee: "brand_manager",
+      incidentDescription: "Signal Intatrapt",
+      assignedEmployee: "Nimal",
       status: "Completed",
     },
     {
@@ -57,13 +57,21 @@ const ReportTable = () => {
     },
   ]);
 
-  // Pagination settings
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
-  // Pagination logic
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const filteredData = data.filter(item =>
+    item.incident.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.customerTel.includes(searchQuery) ||
+    item.customerEmail.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.incidentDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.assignedEmployee.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  
 
   return (
     <div className="p-6 h-full w-full bg-customColor rounded-lg shadow-lg">
@@ -86,7 +94,9 @@ const ReportTable = () => {
               </select>
             </div>
             <div className="relative">
-              <input type="text" placeholder="Search" className="border border-gray-300 p-2 rounded w-64" />
+              <input type="text" placeholder="Search" className="border border-gray-300 p-2 rounded w-64"
+                   value={searchQuery} 
+                   onChange={(e) => setSearchQuery(e.target.value)}  />
             </div>
           </div>
         </div>
