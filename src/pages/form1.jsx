@@ -46,8 +46,8 @@ const Form = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700">Department</label>
             <select className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <option>Department 1</option>
-              <option>Department 2</option>
+              <option>IT Department</option>
+              <option>Networking Department</option>
             </select>
           </div>
           <div>
@@ -75,7 +75,7 @@ const Form = () => {
         </div>
         <div className="flex space-x-4 justify-end">
           <button type="submit" className="py-2 px-6 bg-blue-500 text-white rounded-md shadow-lg">Save</button>
-          <button type="button" className="py-2 px-6 bg-gray-500 text-white rounded-md shadow-lg">Next</button>
+          
           <button type="button" className="py-2 px-6 bg-red-500 text-white rounded-md shadow-lg">Cancel</button>
         </div>
       </form>
@@ -83,4 +83,5 @@ const Form = () => {
   };
   
   export default Form;
+  
   

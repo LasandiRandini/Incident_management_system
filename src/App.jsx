@@ -15,6 +15,7 @@ import Update_incident from "./pages/update_incident";
 import Customer_login from "./Customer_pages/customer_login";
 import Progress from "./Customer_pages/progress_page";
 import FeedbackList from "./pages/feedback_view";
+import Settings from "./pages/settings";
 
 const AdminLayout = () => {
   const navbarHeight = "60px"; 
@@ -84,6 +85,7 @@ const router = createBrowserRouter([
       { path: "/add_incident", element: <Add_incident /> },
       { path: "/update_incident", element: <Update_incident /> },
       { path: "/feedback", element: <FeedbackList /> },
+      { path: "/settings", element: <Settings/>},
     ],
   },
 ]);
