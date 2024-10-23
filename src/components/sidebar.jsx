@@ -54,6 +54,7 @@ const SideBar = ({ toggleSidebar }) => {
           boxSizing: 'border-box',
           background: 'linear-gradient(to bottom, #0F407B, #24AF77)', // Gradient background
           color: 'white', // Ensure text color is white
+          overflow: 'hidden', // Hide the scrollbar
         },
       }}
     >

@@ -72,7 +72,7 @@ const router = createBrowserRouter([
     element: <Customer_login />,
   }, 
   {
-    path: "/progress",
+    path: "/progress/:ins_id",
     element: <Progress />,
   },
   {

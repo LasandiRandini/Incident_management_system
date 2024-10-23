@@ -1,220 +1,193 @@
 
-import { useState } from 'react';
-import SLTLogo from '../assets/SLT_logo.png';
 
-const TrackIncident = () => {
-    const customer = {
-        name: "John Doe",
-        phone: "+94 77 123 4567",
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FaExclamationTriangle } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+const Progress = () => {
+  const { ins_id } = useParams();
+  const [incident, setIncident] = useState(null);
+  const [error, setError] = useState(null);
+  const [feedback, setFeedback] = useState(""); 
+  const [rating, setRating] = useState(0); 
+ // const [submitError, setSubmitError] = useState(null);
+ // const [submitSuccess, setSubmitSuccess] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const incidentResponse = await axios.get(`http://localhost:8080/api/incidents/${ins_id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setIncident(incidentResponse.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Failed to fetch data. Please try again later.');
+      }
     };
 
-    const incidents = [
-        {
-            id: 1,
-            title: "Signal Interrupt",
-            date: "2024-05-31",
-            status: "New",
-            description: "A signal interruption occurred at the main site, affecting service delivery.",
-        },
-        {
-            id: 2,
-            title: "Signal Interception",
-            date: "2024-05-01",
-            status: "Assigned",
-            description: "Signal interception detected. Further analysis is required.",
-        },
-    ];
+    fetchData();
+  }, [ins_id]);
 
-    // Status stages
-    const statusStages = ["New", "Assigned", "Not Assigned", "Completed", "Declined"];
 
-    // Feedback state
-    const [feedback, setFeedback] = useState({
-        rating: '',
-        comment: '',
-    });
+// const handleFeedbackSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const token = localStorage.getItem('token');
+//       await axios.post(`http://localhost:8080/api/incidents/${ins_id}/feedback`, 
+//       { feedback, rating }, {
+//         headers: { Authorization: `Bearer ${token}` },
+//         params: { feedback, rating }
+//       });
+  
+//       // Show success message
+//       Swal.fire({
+//         icon: 'success',
+//         title: 'Success!',
+//         text: 'Feedback and rating submitted successfully!',
+//         confirmButtonText: 'OK'
+//       });
+  
+//       setFeedback(""); // Clear feedback input
+//       setRating(0); // Reset rating
+//     } catch (error) {
+//       console.error('Error submitting feedback:', error);
+  
+//       // Show error message
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops!',
+//         text: 'Failed to submit feedback. Please try again.',
+//         confirmButtonText: 'OK'
+//       });
+//     }
+//   };
+  
+const handleFeedbackSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      const currentDateTime = new Date().toISOString(); // Get current date and time in ISO format
+  
+      await axios.post(`http://localhost:8080/api/incidents/${ins_id}/feedback`, 
+        { 
+            feedback, 
+            rating, 
+            feedbackDate: currentDateTime 
+        }, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+    //   await axios.post(`http://localhost:8080/api/incidents/${ins_id}/feedback`, 
+    //   { feedback, rating, feedbackDate: currentDateTime }, {
+    //     headers: { Authorization: `Bearer ${token}` }
+    //   });
+  
+      // Show success message using SweetAlert2
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Feedback and rating submitted successfully!',
+        confirmButtonText: 'OK'
+      });
+  
+      setFeedback(""); // Clear feedback input
+      setRating(0); // Reset rating
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+  
+      // Show error message using SweetAlert2
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: 'Failed to submit feedback. Please try again.',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
+  
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFeedback((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#0F407B] to-[#24AF77] p-6 flex flex-col items-center">
+      <h1 className="text-3xl font-bold text-white mb-8">Incident Data</h1>
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Feedback submitted:", feedback);
-        alert("Thank you for your feedback!");
-    };
+      {error && <p className="text-red-500">{error}</p>}
 
-    return (
-        <div className="min-h-screen bg-gradient-to-b from-[#0F407B] to-[#24AF77] flex flex-col">
-            <header className="bg-white shadow p-3">
-                <div className="flex items-center">
-                    <img src={SLTLogo} alt="SLT Logo" className="h-17 w-20" />
-                    <h1 className="text-2xl font-bold text-gray-700 ml-4">Track Your Complain</h1>
-                </div>
-            </header>
-
-            <div className="flex flex-grow p-10">
-                {/* Left Section - Progress Status and Feedback */}
-                <div className="w-1/3 bg-blue-200 bg-opacity-85 shadow-md rounded-lg p-6">
-                    <h2 className="text-xl font-semibold text-gray-700 mb-4">Progress Status</h2>
-                    <div className="flex flex-col">
-                        {incidents.map((incident) => (
-                            <div key={incident.id} className="flex items-center mb-4">
-                                <div
-                                    className={`h-4 w-4 rounded-full ${
-                                        incident.status === "New"
-                                            ? 'bg-green-600'
-                                            : incident.status === "Assigned"
-                                            ? 'bg-blue-600'
-                                            : incident.status === "Not Assigned"
-                                            ? 'bg-gray-400'
-                                            : incident.status === "Completed"
-                                            ? 'bg-yellow-600'
-                                            : 'bg-red-600'
-                                    }`}
-                                />
-                                <span className="ml-2 text-gray-700 font-medium">{incident.title}</span>
-                                <span
-                                    className={`ml-auto text-gray-600 ${
-                                        incident.status === "New"
-                                            ? 'text-green-600'
-                                            : incident.status === "Assigned"
-                                            ? 'text-blue-600'
-                                            : incident.status === "Not Assigned"
-                                            ? 'text-gray-400'
-                                            : incident.status === "Completed"
-                                            ? 'text-yellow-600'
-                                            : 'text-red-600'
-                                    }`}
-                                >
-                                    {incident.status}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Feedback Form */}
-                    <div className="mt-10">
-                        <h3 className="text-lg font-semibold text-gray-700">Provide Your Feedback</h3>
-                        <form onSubmit={handleSubmit} className="mt-4">
-                            <div className="mb-4">
-                                <label className="block text-gray-600 font-medium mb-2">
-                                    How satisfied are you with our service?
-                                </label>
-                                <div className="flex justify-between">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="rating"
-                                            value="1"
-                                            onChange={handleInputChange}
-                                            className="hidden"
-                                        />
-                                        <span role="img" aria-label="very unsatisfied">😠</span>
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="rating"
-                                            value="2"
-                                            onChange={handleInputChange}
-                                            className="hidden"
-                                        />
-                                        <span role="img" aria-label="unsatisfied">😟</span>
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="rating"
-                                            value="3"
-                                            onChange={handleInputChange}
-                                            className="hidden"
-                                        />
-                                        <span role="img" aria-label="neutral">😐</span>
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="rating"
-                                            value="4"
-                                            onChange={handleInputChange}
-                                            className="hidden"
-                                        />
-                                        <span role="img" aria-label="satisfied">🙂</span>
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="rating"
-                                            value="5"
-                                            onChange={handleInputChange}
-                                            className="hidden"
-                                        />
-                                        <span role="img" aria-label="very satisfied">😃</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="block text-gray-600 font-medium mb-2">Comment</label>
-                                <textarea
-                                    name="comment"
-                                    value={feedback.comment}
-                                    onChange={handleInputChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    placeholder="Leave a comment..."
-                                    required
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-                            >
-                                Submit Feedback
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                {/* Right Section - Incident Details */}
-                <div className="w-2/3 ml-6 bg-blue-200 bg-opacity-80 shadow-md rounded-lg p-6">
-                    <h2 className="text-xl font-semibold text-gray-700">Incident Details</h2>
-                    {incidents.map((incident) => (
-                        <div key={incident.id} className="border-b border-gray-300 py-4">
-                            <h4 className="text-gray-700 font-semibold">{incident.title}</h4>
-                            <p className="text-gray-500 text-sm">Date: {incident.date}</p>
-                            <p
-                                className={`text-sm ${
-                                    incident.status === "New"
-                                        ? 'text-green-600'
-                                        : incident.status === "Assigned"
-                                        ? 'text-blue-600'
-                                        : incident.status === "Not Assigned"
-                                        ? 'text-gray-400'
-                                        : incident.status === "Completed"
-                                        ? 'text-yellow-600'
-                                        : 'text-red-600'
-                                }`}
-                            >
-                                Status: {incident.status}
-                            </p>
-                            <p className="text-gray-600 mt-2">{incident.description}</p>
-                        </div>
-                    ))}
-
-                    <div className="mt-4">
-                        <h3 className="text-lg font-semibold text-gray-700">Customer Details</h3>
-                        <p className="text-gray-600"><strong>Name:</strong> {customer.name}</p>
-                        <p className="text-gray-600"><strong>Phone Number:</strong> {customer.phone}</p>
-                    </div>
-                </div>
-            </div>
+      {incident ? (
+        <div className="bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow duration-300 w-full max-w-6xl">
+          <div className="flex items-center mb-4">
+            <FaExclamationTriangle className="text-red-600 text-3xl mr-2" />
+            <h2 className="text-xl font-semibold text-gray-700">{incident.title}</h2>
+          </div>
+          <p className="text-gray-600">{incident.description}</p>
+          <div className="mt-3 flex">
+  <p className="mt-2 mr-2  text-black ">
+    Status:
+  </p>
+  <span className={`inline-block px-4 py-2 rounded-full font-semibold text-white 
+    ${incident.status === 'Open' ? 'bg-green-500' : 
+      incident.status === 'In Progress' ? 'bg-yellow-500' : 
+      'bg-red-500'}`}>
+    {incident.status}
+  </span>
+</div>
+          {/* <p className="text-2xl mt-6 text-center text-gray-500 bg-red-500 ">Status: {incident.status}</p> */}
         </div>
-    );
+      ) : (
+        <p className="text-white">Loading incident data...</p>
+      )}    
+
+      <form onSubmit={handleFeedbackSubmit} className="bg-white shadow-lg rounded-lg p-4 mt-6 w-full max-w-6xl">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">Submit Your Feedback</h2>
+        <textarea
+          value={feedback}
+          onChange={(e) => setFeedback(e.target.value)}
+          placeholder="Your feedback here..."
+          className="border border-gray-300 p-2 w-full rounded-md"
+          rows="4"
+        />
+        
+        {/* Rating Section */}
+        {/* <div className="mt-4">
+          <label className="block text-gray-700">Rating:</label>
+          <div className="flex gap-2">
+            {[1, 2, 3, 4, 5].map((rate) => (
+              <button
+                key={rate}
+                type="button"
+                className={`px-3 py-1 rounded-full ${rating === rate ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                onClick={() => setRating(rate)}
+              >
+                {rate}
+              </button>
+            ))}
+          </div>
+        </div> */}
+<div className="flex gap-2 mt-2">
+  {[1, 2, 3, 4, 5].map((rate) => (
+    <button
+      key={rate}
+      type="button"
+      className={`px-4 py-2 transition ease-in-out font-semibold duration-200 rounded-full ${
+        rating === rate ? 'bg-blue-600 text-white ' : 'bg-gray-300'
+      } hover:bg-blue-500`}
+      onClick={() => setRating(rate)}
+    >
+      {rate}
+    </button>
+  ))}
+</div>
+        {/* {submitError && <p className="text-red-500">{submitError}</p>}
+        {submitSuccess && <p className="text-green-500">{submitSuccess}</p>} */}
+        
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4">
+          Submit Feedback and Rating
+        </button>
+      </form>
+    </div>
+  );
 };
 
-export default TrackIncident;
+export default Progress;

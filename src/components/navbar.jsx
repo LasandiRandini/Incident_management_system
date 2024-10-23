@@ -43,24 +43,24 @@ const Navbar = ({ toggleSidebar, isSidebarVisible }) => {
               padding: '0 1px',
             }}
           >
+           
             <InputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              sx={{
-                
-                color: 'inherit',
-                '& .MuiInputBase-input': {
-                  padding: '8px 8px 8px 0',
-                  paddingLeft: `calc(1em + 32px)`,
-                  transition: 'width 0.3s',
-                  
-                  width: '100%',
-                  '@media (min-width: 960px)': {
-                    width: '20ch',
-                  },
-                },
-              }}
-            />
+  placeholder="Search…"
+  inputProps={{ 'aria-label': 'search' }}
+  sx={{
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+      padding: '8px 8px 8px 0',
+      paddingLeft: `calc(1em + 5px)`,
+      transition: 'width 0.3s',
+      width: '100%',
+      '@media (min-width: 960px)': {
+        width: '20ch',
+      },
+      color: 'black', 
+    },
+  }}
+/>
             <IconButton type="button" sx={{ p: '10px' }}>
               <SearchIcon />
             </IconButton>
