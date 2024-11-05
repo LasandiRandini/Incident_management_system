@@ -218,7 +218,7 @@ const Progress = () => {
     }
   };
 
- 
+  // Function to determine the status class based on incident status
   const getStatusClass = (status) => {
     switch (status) {
       case 'Open':
