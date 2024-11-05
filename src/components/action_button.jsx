@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { Menu, MenuItem, Button } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -72,5 +73,15 @@ function ActionButton({ options = [], onSelect }) {
     </>
   );
 }
+// Define prop types for validation
+ActionButton.propTypes = {
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.any, // Adjust the type as necessary
+    })
+  ),
+  onSelect: PropTypes.func,
+};
 
 export default ActionButton;
