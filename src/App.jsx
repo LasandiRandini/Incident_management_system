@@ -1,8 +1,5 @@
-
 import { createBrowserRouter, RouterProvider,Outlet } from "react-router-dom";
 import { useState } from "react";
-
-
 import Dashboardpage from "./pages/dashboard";
 import Sidebar from "./components/sidebar";
 import Navbar from "./components/navbar";
@@ -22,10 +19,12 @@ const AdminLayout = () => {
   const [isSidebarVisible, setSidebarVisible] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
+  // const toggleSidebar = () => {
+  //   setSidebarVisible(!isSidebarVisible);
+  // };
   const toggleSidebar = () => {
-    setSidebarVisible(!isSidebarVisible);
+    setSidebarVisible(prevState => !prevState); // Use the setter correctly
   };
-
   return (
     <div
       style={{
