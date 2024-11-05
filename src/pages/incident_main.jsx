@@ -88,15 +88,22 @@ const TableComponent = () => {
     }
   };
 
+  // const filteredData = data.filter(item =>
+  //   item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //   item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //   item.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //   (item.employeeName && item.employeeName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+  //   (item.employeeTelNo && item.employeeTelNo.includes(searchQuery)) ||
+  //   (item.employeeEmail && item.employeeEmail.toLowerCase().includes(searchQuery.toLowerCase()))
+  // );
   const filteredData = data.filter(item =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (item.employeeName && item.employeeName.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (item.employeeTelNo && item.employeeTelNo.includes(searchQuery)) ||
-    (item.employeeEmail && item.employeeEmail.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-
+    item.employeeName?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    item.employeeTelNo?.includes(searchQuery) ||
+    item.employeeEmail?.toLowerCase().includes(searchQuery.toLowerCase())
+);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
