@@ -25,13 +25,13 @@ const TableComponent = () => {
   }, []);
 
   const toggleDescription = (incidentId) => {
-    const updatedData = data.map(item => 
-      item.incidentId === incidentId ? { ...item, showFullDescription: !item.showFullDescription } : item
+    const updatedData = data.map(items => 
+      items.incidentId === incidentId ? { ...items, showFullDescription: !items.showFullDescription } : items
     );
     setData(updatedData);
   };
 
-  // Filter based on employee, department, and search query
+  
   const filteredData = data.filter(item =>
     (selectedEmployee === "" || item.employeeName?.toLowerCase().includes(selectedEmployee.toLowerCase())) &&
     (selectedDepartment === "" || item.departmentName?.toLowerCase().includes(selectedDepartment.toLowerCase())) 
@@ -41,7 +41,7 @@ const TableComponent = () => {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // Download PDF of filtered data
+ 
   const downloadPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(14);
@@ -49,17 +49,17 @@ const TableComponent = () => {
 
     const headers = [['Incident ID', 'Title', 'Description', 'Employee Name', 'Employee Tel.', 'Employee Email', 'Department']];
     
-    const dataRows = filteredData.map(item => [
-      item.incidentId,
-      item.title,
-      item.description,
-      item.employeeName || 'N/A',
-      item.employeeTelNo || 'N/A',
-      item.employeeEmail || 'N/A',
-      item.departmentName || 'N/A'
+    const dataRows = filteredData.map(items => [
+      items.incidentId,
+      items.title,
+      items.description,
+      items.employeeName || 'N/A',
+      items.employeeTelNo || 'N/A',
+      items.employeeEmail || 'N/A',
+      items.departmentName || 'N/A'
     ]);
 
-    // Add table to the PDF
+   
     doc.autoTable({
       startY: 22,
       head: headers,
@@ -69,7 +69,7 @@ const TableComponent = () => {
       styles: { fontSize: 10 },
     });
 
-    // Save the PDF
+    
     doc.save('filtered_incidents.pdf');
   };
 
@@ -86,7 +86,6 @@ const TableComponent = () => {
           
         </div>
 
-        {/* Employee Filter */}
         <div className="flex justify-between items-center mb-4">
           <div>
             <label htmlFor="employeeFilter" className="mr-2">Filter by Employee</label>
@@ -100,7 +99,7 @@ const TableComponent = () => {
             />
           </div>
 
-          {/* Department Filter */}
+     
           <div>
             <label htmlFor="departmentFilter" className="mr-2">Filter by Department</label>
             <input
@@ -119,48 +118,48 @@ const TableComponent = () => {
             <thead>
               <tr>
                 <th className="border border-gray-300 p-2">#</th>
-                <th className="border border-gray-300 p-2">Title</th>
-                <th className="border border-gray-300 p-2">Description</th>
-                <th className="border border-gray-300 p-2">Employee Name</th>
-                <th className="border border-gray-300 p-2">Employee Tel.</th>
-                <th className="border border-gray-300 p-2">Employee Email</th>
-                <th className="border border-gray-300 p-2">Department</th>
+                <th className="border border-gray-300 p-2">Incident Title</th>
+                <th className="border border-gray-300 p-2">Incident Description</th>
+                <th className="border border-gray-300 p-2">Assigned Employee Name</th>
+                <th className="border border-gray-300 p-2"> Tel No.</th>
+                <th className="border border-gray-300 p-2"> Email</th>
+                <th className="border border-gray-300 p-2">Related Department</th>
               </tr>
             </thead>
             <tbody>
-              {paginatedData.map((item) => (
-                <tr key={item.incidentId}>
-                  <td className="border border-gray-300 p-2 text-center">{item.incidentId}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.title}</td>
+              {paginatedData.map((items) => (
+                <tr key={items.incidentId}>
+                  <td className="border border-gray-300 p-2 text-center">{items.incidentId}</td>
+                  <td className="border border-gray-300 p-2 text-center">{items.title}</td>
                   <td className="border border-gray-300 p-2 text-center">
-                    {item.showFullDescription
-                      ? item.description
-                      : `${item.description.slice(0, 50)}...`}
+                    {items.showFullDescription
+                      ? items.description
+                      : `${items.description.slice(0, 50)}...`}
                     <button 
                       className="text-blue-500 ml-2"
-                      onClick={() => toggleDescription(item.incidentId)}
+                      onClick={() => toggleDescription(items.incidentId)}
                     >
-                      {item.showFullDescription ? "Show less" : "Read more"}
+                      {items.showFullDescription ? "Show less" : "Read more"}
                     </button>
                   </td>
-                  <td className="border border-gray-300 p-2 text-center">{item.employeeName || 'N/A'}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.employeeTelNo || 'N/A'}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.employeeEmail || 'N/A'}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.departmentName || 'N/A'}</td>
+                  <td className="border border-gray-300 p-2 text-center">{items.employeeName || 'N/A'}</td>
+                  <td className="border border-gray-300 p-2 text-center">{items.employeeTelNo || 'N/A'}</td>
+                  <td className="border border-gray-300 p-2 text-center">{items.employeeEmail || 'N/A'}</td>
+                  <td className="border border-gray-300 p-2 text-center">{items.departmentName || 'N/A'}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
        
-        {/* Pagination */}
+       
         <div className="flex justify-between items-center mt-4">
           <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
           <span>{`Page ${currentPage} of ${totalPages}`}</span>
           <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
         </div>
 
-        {/* Download PDF Button */}
+       
         <div className="mt-4">
           <button
             onClick={downloadPDF}
