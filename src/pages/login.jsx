@@ -87,7 +87,7 @@ const Login = () => {
                 <input type="checkbox" className="form-checkbox" />
                 <span className="ml-2 text-gray-700">Remember me</span>
               </label>
-              <a  className="text-sm text-blue-600">Forgot Password?</a>
+              <span  className="text-sm text-blue-600">Forgot Password?</span>
             </div>
             <button
               type="submit"
