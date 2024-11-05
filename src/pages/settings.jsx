@@ -575,6 +575,8 @@
 
 // export default App;
   
+
+
 // import { useState, useEffect } from "react";
 // import axios from "axios";
 
@@ -698,6 +700,79 @@
 //     }
 //   };
 
+//   // Independent statements for rendering conditions
+//   const departmentContent = loadingDepartments ? (
+//     <p>Loading departments...</p>
+//   ) : departments.length > 0 ? (
+//     <ul className="mt-4 grid grid-cols-1 gap-4">
+//       {departments.map((dep) => (
+//         <li key={dep.dep_id} className="p-4 bg-gray-100 rounded-lg shadow-sm flex justify-between">
+//           <span>{dep.dep_name}</span>
+//           <div>
+//             <button
+//               className="text-yellow-500 border border-yellow-500 rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mr-2"
+//               onClick={() => {
+//                 setDepartmentForm({ dep_name: dep.dep_name });
+//                 setEditDepartmentId(dep.dep_id);
+//               }}
+//             >
+//               Edit
+//             </button>
+//             <button
+//               className="text-red-500 border border-red-500 rounded px-2 py-1 hover:bg-red-500 hover:text-white transition"
+//               onClick={() => deleteDepartment(dep.dep_id)}
+//             >
+//               Delete
+//             </button>
+//           </div>
+//         </li>
+//       ))}
+//     </ul>
+//   ) : (
+//     <p>No departments found</p>
+//   );
+
+//   const employeeContent = loadingEmployees ? (
+//     <p>Loading employees...</p>
+//   ) : employees.length > 0 ? (
+//     <ul className="mt-4 grid grid-cols-1 gap-4">
+//       {employees.map((emp) => (
+//         <li key={emp.emp_id} className="p-4 bg-gray-100 rounded-lg shadow-sm flex justify-between">
+//           <span>
+//             <strong>Name:</strong> {emp.emp_name} <br />
+//             <strong>Email:</strong> {emp.emp_email} <br />
+//             <strong>Phone:</strong> {emp.emp_tel_no} <br />
+//             <strong>Department:</strong> {emp.department?.dep_name || 'N/A'}
+//           </span>
+//           <div>
+//             <button
+//               className="text-yellow-500 border border-yellow-500 rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mr-2"
+//               onClick={() => {
+//                 setEmployeeForm({
+//                   emp_name: emp.emp_name,
+//                   emp_tel_no: emp.emp_tel_no,
+//                   emp_email: emp.emp_email,
+//                   dep_id: emp.department?.dep_id || '',
+//                 });
+//                 setEditEmployeeId(emp.emp_id);
+//               }}
+//             >
+//               Edit
+//             </button>
+//             <button
+//               className="text-red-500 border border-red-500 rounded px-2 py-1 hover:bg-red-500 hover:text-white transition"
+//               onClick={() => deleteEmployee(emp.emp_id)}
+//             >
+//               Delete
+//             </button>
+//           </div>
+//         </li>
+//       ))}
+//     </ul>
+//   ) : (
+//     <p>No employees found</p>
+//   );
+
 //   return (
 //     <div className="p-6 bg-customColor rounded-lg shadow-lg mx-auto">
 //       <div className="p-4 w-full bg-white rounded-lg shadow-lg">
@@ -722,39 +797,7 @@
 //               {editDepartmentId ? "Update Department" : "Add Department"}
 //             </button>
 //           </div>
-
-//           {loadingDepartments ? (
-//             <p>Loading departments...</p>
-//           ) : (
-//             departments.length > 0 ? (
-//               <ul className="mt-4 grid grid-cols-1 gap-4">
-//                 {departments.map((dep) => (
-//                   <li key={dep.dep_id} className="p-4 bg-gray-100 rounded-lg shadow-sm flex justify-between">
-//                     <span>{dep.dep_name}</span>
-//                     <div>
-//                       <button
-//                         className="text-yellow-500 border border-yellow-500 rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mr-2"
-//                         onClick={() => {
-//                           setDepartmentForm({ dep_name: dep.dep_name });
-//                           setEditDepartmentId(dep.dep_id);
-//                         }}
-//                       >
-//                         Edit
-//                       </button>
-//                       <button
-//                         className="text-red-500 border border-red-500 rounded px-2 py-1 hover:bg-red-500 hover:text-white transition"
-//                         onClick={() => deleteDepartment(dep.dep_id)}
-//                       >
-//                         Delete
-//                       </button>
-//                     </div>
-//                   </li>
-//                 ))}
-//               </ul>
-//             ) : (
-//               <p>No departments found</p>
-//             )
-//           )}
+//           {departmentContent}
 //         </div>
 
 //         {/* Employee Management */}
@@ -802,49 +845,7 @@
 //           >
 //             {editEmployeeId ? "Update Employee" : "Add Employee"}
 //           </button>
-
-//           {loadingEmployees ? (
-//             <p>Loading employees...</p>
-//           ) : (
-//             employees.length > 0 ? (
-//               <ul className="mt-4 grid grid-cols-1 gap-4">
-//                 {employees.map((emp) => (
-//                   <li key={emp.emp_id} className="p-4 bg-gray-100 rounded-lg shadow-sm flex justify-between">
-//                     <span>
-//                       <strong>Name:</strong> {emp.emp_name} <br />
-//                       <strong>Email:</strong> {emp.emp_email} <br />
-//                       <strong>Phone:</strong> {emp.emp_tel_no} <br />
-//                       <strong>Department:</strong> {emp.department?.dep_name || 'N/A'}
-//                     </span>
-//                     <div>
-//                       <button
-//                         className="text-yellow-500 border border-yellow-500 rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mr-2"
-//                         onClick={() => {
-//                           setEmployeeForm({
-//                             emp_name: emp.emp_name,
-//                             emp_tel_no: emp.emp_tel_no,
-//                             emp_email: emp.emp_email,
-//                             dep_id: emp.department?.dep_id || '',
-//                           });
-//                           setEditEmployeeId(emp.emp_id);
-//                         }}
-//                       >
-//                         Edit
-//                       </button>
-//                       <button
-//                         className="text-red-500 border border-red-500 rounded px-2 py-1 hover:bg-red-500 hover:text-white transition"
-//                         onClick={() => deleteEmployee(emp.emp_id)}
-//                       >
-//                         Delete
-//                       </button>
-//                     </div>
-//                   </li>
-//                 ))}
-//               </ul>
-//             ) : (
-//               <p>No employees found</p>
-//             )
-//           )}
+//           {employeeContent}
 //         </div>
 //       </div>
 //     </div>
@@ -976,78 +977,85 @@ function App() {
     }
   };
 
-  // Independent statements for rendering conditions
-  const departmentContent = loadingDepartments ? (
-    <p>Loading departments...</p>
-  ) : departments.length > 0 ? (
-    <ul className="mt-4 grid grid-cols-1 gap-4">
-      {departments.map((dep) => (
-        <li key={dep.dep_id} className="p-4 bg-gray-100 rounded-lg shadow-sm flex justify-between">
-          <span>{dep.dep_name}</span>
-          <div>
-            <button
-              className="text-yellow-500 border border-yellow-500 rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mr-2"
-              onClick={() => {
-                setDepartmentForm({ dep_name: dep.dep_name });
-                setEditDepartmentId(dep.dep_id);
-              }}
-            >
-              Edit
-            </button>
-            <button
-              className="text-red-500 border border-red-500 rounded px-2 py-1 hover:bg-red-500 hover:text-white transition"
-              onClick={() => deleteDepartment(dep.dep_id)}
-            >
-              Delete
-            </button>
-          </div>
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p>No departments found</p>
-  );
+  // Render department content conditionally
+  let departmentContent;
+  if (loadingDepartments) {
+    departmentContent = <p>Loading departments...</p>;
+  } else if (departments.length > 0) {
+    departmentContent = (
+      <ul className="mt-4 grid grid-cols-1 gap-4">
+        {departments.map((dep) => (
+          <li key={dep.dep_id} className="p-4 bg-gray-100 rounded-lg shadow-sm flex justify-between">
+            <span>{dep.dep_name}</span>
+            <div>
+              <button
+                className="text-yellow-500 border border-yellow-500 rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mr-2"
+                onClick={() => {
+                  setDepartmentForm({ dep_name: dep.dep_name });
+                  setEditDepartmentId(dep.dep_id);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                className="text-red-500 border border-red-500 rounded px-2 py-1 hover:bg-red-500 hover:text-white transition"
+                onClick={() => deleteDepartment(dep.dep_id)}
+              >
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    );
+  } else {
+    departmentContent = <p>No departments found</p>;
+  }
 
-  const employeeContent = loadingEmployees ? (
-    <p>Loading employees...</p>
-  ) : employees.length > 0 ? (
-    <ul className="mt-4 grid grid-cols-1 gap-4">
-      {employees.map((emp) => (
-        <li key={emp.emp_id} className="p-4 bg-gray-100 rounded-lg shadow-sm flex justify-between">
-          <span>
-            <strong>Name:</strong> {emp.emp_name} <br />
-            <strong>Email:</strong> {emp.emp_email} <br />
-            <strong>Phone:</strong> {emp.emp_tel_no} <br />
-            <strong>Department:</strong> {emp.department?.dep_name || 'N/A'}
-          </span>
-          <div>
-            <button
-              className="text-yellow-500 border border-yellow-500 rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mr-2"
-              onClick={() => {
-                setEmployeeForm({
-                  emp_name: emp.emp_name,
-                  emp_tel_no: emp.emp_tel_no,
-                  emp_email: emp.emp_email,
-                  dep_id: emp.department?.dep_id || '',
-                });
-                setEditEmployeeId(emp.emp_id);
-              }}
-            >
-              Edit
-            </button>
-            <button
-              className="text-red-500 border border-red-500 rounded px-2 py-1 hover:bg-red-500 hover:text-white transition"
-              onClick={() => deleteEmployee(emp.emp_id)}
-            >
-              Delete
-            </button>
-          </div>
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p>No employees found</p>
-  );
+  // Render employee content conditionally
+  let employeeContent;
+  if (loadingEmployees) {
+    employeeContent = <p>Loading employees...</p>;
+  } else if (employees.length > 0) {
+    employeeContent = (
+      <ul className="mt-4 grid grid-cols-1 gap-4">
+        {employees.map((emp) => (
+          <li key={emp.emp_id} className="p-4 bg-gray-100 rounded-lg shadow-sm flex justify-between">
+            <span>
+              <strong>Name:</strong> {emp.emp_name} <br />
+              <strong>Email:</strong> {emp.emp_email} <br />
+              <strong>Phone:</strong> {emp.emp_tel_no} <br />
+              <strong>Department:</strong> {emp.department?.dep_name || 'N/A'}
+            </span>
+            <div>
+              <button
+                className="text-yellow-500 border border-yellow-500 rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mr-2"
+                onClick={() => {
+                  setEmployeeForm({
+                    emp_name: emp.emp_name,
+                    emp_tel_no: emp.emp_tel_no,
+                    emp_email: emp.emp_email,
+                    dep_id: emp.department?.dep_id || '',
+                  });
+                  setEditEmployeeId(emp.emp_id);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                className="text-red-500 border border-red-500 rounded px-2 py-1 hover:bg-red-500 hover:text-white transition"
+                onClick={() => deleteEmployee(emp.emp_id)}
+              >
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    );
+  } else {
+    employeeContent = <p>No employees found</p>;
+  }
 
   return (
     <div className="p-6 bg-customColor rounded-lg shadow-lg mx-auto">
@@ -1092,14 +1100,14 @@ function App() {
               className="border rounded p-2"
               value={employeeForm.emp_tel_no}
               onChange={(e) => setEmployeeForm({ ...employeeForm, emp_tel_no: e.target.value })}
-              placeholder="Employee Phone"
+              placeholder="Telephone"
             />
             <input
-              type="text"
+              type="email"
               className="border rounded p-2"
               value={employeeForm.emp_email}
               onChange={(e) => setEmployeeForm({ ...employeeForm, emp_email: e.target.value })}
-              placeholder="Employee Email"
+              placeholder="Email"
             />
             <select
               className="border rounded p-2"
@@ -1115,9 +1123,9 @@ function App() {
             </select>
           </div>
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded mb-4"
+            className="bg-green-500 text-white px-4 py-2 rounded"
             onClick={editEmployeeId ? updateEmployee : addEmployee}
-            disabled={!employeeForm.emp_name || !employeeForm.dep_id}
+            disabled={!employeeForm.emp_name || !employeeForm.emp_tel_no || !employeeForm.emp_email || !employeeForm.dep_id}
           >
             {editEmployeeId ? "Update Employee" : "Add Employee"}
           </button>
