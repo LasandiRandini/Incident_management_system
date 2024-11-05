@@ -1,7 +1,7 @@
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider,Outlet } from "react-router-dom";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+
 
 import Dashboardpage from "./pages/dashboard";
 import Sidebar from "./components/sidebar";
@@ -10,9 +10,9 @@ import Incidentmain from "./pages/incident_main";
 import Report from "./pages/report";
 import Login from "./pages/login";
 import Registration from "./pages/registration";
-import Add_incident from "./pages/add_incident";
-import Update_incident from "./pages/update_incident";
-import Customer_login from "./Customer_pages/customer_login";
+import AddIncident from "./pages/add_incident";
+import UpdateIncident from "./pages/update_incident";
+import CustomerLogin from "./Customer_pages/customer_login";
 import Progress from "./Customer_pages/progress_page";
 import FeedbackList from "./pages/feedback_view";
 import Settings from "./pages/settings";
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/customer_login",
-    element: <Customer_login />,
+    element: <CustomerLogin />,
   }, 
   {
     path: "/progress/:ins_id",
@@ -82,8 +82,8 @@ const router = createBrowserRouter([
       { path: "/dashboard", element: <Dashboardpage /> },
       { path: "/incidentmain", element: <Incidentmain /> },
       { path: "/report", element: <Report /> },
-      { path: "/add_incident", element: <Add_incident /> },
-      { path: "/update_incident", element: <Update_incident /> },
+      { path: "/add_incident", element: <AddIncident /> },
+      { path: "/update_incident", element: <UpdateIncident /> },
       { path: "/feedback", element: <FeedbackList /> },
       { path: "/settings", element: <Settings/>},
     ],
