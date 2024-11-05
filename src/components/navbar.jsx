@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import PropTypes from 'prop-types';
 
 const Navbar = ({ toggleSidebar, isSidebarVisible }) => {
   const handleFullScreen = () => {
@@ -82,6 +83,10 @@ const Navbar = ({ toggleSidebar, isSidebarVisible }) => {
       </Toolbar>
     </AppBar>
   );
+};
+Navbar.propTypes = {
+  toggleSidebar: PropTypes.func.isRequired,
+  isSidebarVisible: PropTypes.bool.isRequired,
 };
 
 export default Navbar;

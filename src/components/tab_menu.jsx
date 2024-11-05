@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 
 const TabMenu = ({ tabs, activeTab, setActiveTab }) => {
   return (
@@ -18,5 +19,11 @@ const TabMenu = ({ tabs, activeTab, setActiveTab }) => {
       </div>
     </div>
   );
+};
+TabMenu.propTypes = {
+  tabs: PropTypes.func.isRequired,
+  activeTab: PropTypes.func.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
+
 };
 export default TabMenu;

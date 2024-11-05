@@ -9,6 +9,7 @@ import Customer from '../assets/person.svg';
 import Incident from '../assets/megaphone.svg';
 import Report from '../assets/file.svg';
 import Setting from '../assets/information.svg';
+import PropTypes from 'prop-types';
 
 const drawerWidth = 240;
 
@@ -124,6 +125,9 @@ const SideBar = ({ toggleSidebar }) => {
       />
     </Drawer>
   );
+};
+SideBar.propTypes = {
+  toggleSidebar: PropTypes.func.isRequired,
 };
 
 export default SideBar;
