@@ -80,7 +80,7 @@ const Login = () => {
           </form>
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
-              Dont have the code?{" "}
+              Dont have the code?
               <a className="text-blue-600">
                 Request Code
               </a>
