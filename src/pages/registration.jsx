@@ -187,8 +187,8 @@
 
 import { useState } from 'react';
 import axios from 'axios';
-import logo from '../assets/SLT_logo.png';  
-import image2 from '../assets/image 2.png'; 
+import logo from '../assets/SLT_logo.png';
+import image2 from '../assets/image 2.png';
 
 const Registration = () => {
     const [formData, setFormData] = useState({
@@ -200,14 +200,14 @@ const Registration = () => {
       password: '',
       confirmPassword: '',
     });
-  
+
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-  
+
     const handleSubmit = async (e) => {
       e.preventDefault();
 
@@ -225,34 +225,34 @@ const Registration = () => {
           username: formData.username,
           password: formData.password,
         });
-        
+
         setSuccess("Registration successful!");
         setError('');
         console.log('Registration submitted:', response.data);
-        
+
         window.location.href = '/login';
       } catch (err) {
         setError("Registration failed. Please try again.");
         console.error("Error registering:", err);
       }
     };
-  
+
     return (
       <div className="flex h-screen flex-col md:flex-row">
         <div className="w-full md:w-1/2 flex justify-center items-center bg-[rgb(245,248,248)] p-4">
           <div className='bg-white border shadow-md rounded-lg mt-10 mb-10 w-full max-w-md'>
             <div className="p-5">
               <h2 className="text-3xl font-bold text-center">Register</h2>
-              
+
               {error && <p className="text-red-500 text-center">{error}</p>}
               {success && <p className="text-green-500 text-center">{success}</p>}
-    
+
               <form onSubmit={handleSubmit}>
-                {/* <div className="mb-1 mt-4">
+                <div className="mb-1 mt-4">
                   <label htmlFor="firstName" className="block text-gray-700 mb-2">Admin First Name</label>
                   <input
                     type="text"
-                    id="firstName" // Added id
+                    id="firstName"
                     name="firstName"
                     placeholder="Enter your First Name"
                     value={formData.firstName}
@@ -260,49 +260,25 @@ const Registration = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   />
                 </div>
-    
+
                 <div className="mb-1">
                   <label htmlFor="lastName" className="block text-gray-700 mb-2">Admin Last Name</label>
                   <input
                     type="text"
-                    id="lastName" // Added id
+                    id="lastName"
                     name="lastName"
                     placeholder="Enter your Last Name"
                     value={formData.lastName}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   />
-                </div> */}
-    <div className="mb-1 mt-4">
-  <label htmlFor="firstName" className="block text-gray-700 mb-2">Admin First Name</label>
-  <input
-    type="text"
-    id="firstName" // This id must match the htmlFor in the label
-    name="firstName"
-    placeholder="Enter your First Name"
-    value={formData.firstName}
-    onChange={handleChange}
-    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-  />
-</div>
+                </div>
 
-<div className="mb-1">
-  <label htmlFor="lastName" className="block text-gray-700 mb-2">Admin Last Name</label>
-  <input
-    type="text"
-    id="lastName" // This id must match the htmlFor in the label
-    name="lastName"
-    placeholder="Enter your Last Name"
-    value={formData.lastName}
-    onChange={handleChange}
-    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-  />
-</div>
                 <div className="mb-1">
                   <label htmlFor="email" className="block text-gray-700 mb-2">Email</label>
                   <input
                     type="email"
-                    id="email" // Added id
+                    id="email"
                     name="email"
                     placeholder="Enter your Email"
                     value={formData.email}
@@ -310,12 +286,12 @@ const Registration = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   />
                 </div>
-    
+
                 <div className="mb-1">
                   <label htmlFor="contactNumber" className="block text-gray-700 mb-2">Contact Number</label>
                   <input
                     type="text"
-                    id="contactNumber" // Added id
+                    id="contactNumber"
                     name="contactNumber"
                     placeholder="Enter your Contact Number"
                     value={formData.contactNumber}
@@ -323,12 +299,12 @@ const Registration = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   />
                 </div>
-    
+
                 <div className="mb-1">
                   <label htmlFor="username" className="block text-gray-700 mb-2">Username</label>
                   <input
                     type="text"
-                    id="username" // Added id
+                    id="username"
                     name="username"
                     placeholder="Enter your Username"
                     value={formData.username}
@@ -336,12 +312,12 @@ const Registration = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   />
                 </div>
-    
+
                 <div className="mb-1">
                   <label htmlFor="password" className="block text-gray-700 mb-2">Password</label>
                   <input
                     type="password"
-                    id="password" // Added id
+                    id="password"
                     name="password"
                     placeholder="Enter your Password"
                     value={formData.password}
@@ -349,12 +325,12 @@ const Registration = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   />
                 </div>
-    
+
                 <div className="mb-1">
                   <label htmlFor="confirmPassword" className="block text-gray-700 mb-2">Confirm Password</label>
                   <input
                     type="password"
-                    id="confirmPassword" // Added id
+                    id="confirmPassword"
                     name="confirmPassword"
                     placeholder="Confirm your Password"
                     value={formData.confirmPassword}
@@ -362,7 +338,7 @@ const Registration = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   />
                 </div>
-                
+
                 <button
                   type="submit"
                   className="w-full bg-green-600 text-white py-2 rounded-lg shadow-lg hover:bg-green-700 mt-4"
@@ -373,19 +349,19 @@ const Registration = () => {
             </div>
           </div>
         </div>
-        
+
         <div
           className="hidden md:flex w-1/2 bg-cover bg-center relative"
-          style={{ backgroundImage: `url(${image2})` }} 
+          style={{ backgroundImage: `url(${image2})` }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-[#0F407B] to-[#24AF77] opacity-70">
             <div className="flex flex-col justify-center items-center h-full bg-black bg-opacity-50 text-white p-8">
-              <img src={logo} alt="SLT Mobitel" className="mb-8 w-64" />  
+              <img src={logo} alt="SLT Mobitel" className="mb-8 w-64" />
               <h1 className="text-4xl font-bold mb-4">Welcome to SLT Mobitel</h1>
               <p className="text-lg mb-6">The Connection</p>
-              <button 
+              <button
                 className="border border-white px-6 py-2 rounded-full"
-                onClick={() => window.location.href = '/login'}  
+                onClick={() => window.location.href = '/login'}
               >
                 Sign in
               </button>
