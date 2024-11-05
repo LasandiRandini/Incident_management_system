@@ -248,7 +248,7 @@ const Registration = () => {
               {success && <p className="text-green-500 text-center">{success}</p>}
     
               <form onSubmit={handleSubmit}>
-                <div className="mb-1 mt-4">
+                {/* <div className="mb-1 mt-4">
                   <label htmlFor="firstName" className="block text-gray-700 mb-2">Admin First Name</label>
                   <input
                     type="text"
@@ -272,8 +272,32 @@ const Registration = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   />
-                </div>
-    
+                </div> */}
+    <div className="mb-1 mt-4">
+  <label htmlFor="firstName" className="block text-gray-700 mb-2">Admin First Name</label>
+  <input
+    type="text"
+    id="firstName" // This id must match the htmlFor in the label
+    name="firstName"
+    placeholder="Enter your First Name"
+    value={formData.firstName}
+    onChange={handleChange}
+    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+  />
+</div>
+
+<div className="mb-1">
+  <label htmlFor="lastName" className="block text-gray-700 mb-2">Admin Last Name</label>
+  <input
+    type="text"
+    id="lastName" // This id must match the htmlFor in the label
+    name="lastName"
+    placeholder="Enter your Last Name"
+    value={formData.lastName}
+    onChange={handleChange}
+    className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+  />
+</div>
                 <div className="mb-1">
                   <label htmlFor="email" className="block text-gray-700 mb-2">Email</label>
                   <input
