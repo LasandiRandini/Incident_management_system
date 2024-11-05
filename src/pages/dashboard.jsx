@@ -39,7 +39,7 @@ const Dashboard = () => {
     axios
       .get("http://localhost:8080/api/incidents/department-summary")
       .then((response) => {
-        setDepartmentStats(response.data); // Set department data
+        setDepartmentStats(response.data);
       })
       .catch((error) => {
         console.error("Error fetching department stats:", error);
@@ -60,47 +60,34 @@ const Dashboard = () => {
       </div>
 
       <div className="p-4 w-full bg-white rounded-lg shadow-lg ">
-        {/* <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2">Crucial Incidents</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Crucial Incidents
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {crucialIncidents.map((incident) => (
-              <IncidentCard
+              <div
                 key={incident.ins_id}
-                title={incident.title}
-                type={incident.type}
-                date={new Date(incident.feedbackDate).toLocaleDateString()}
-              />
+                className="bg-blue-100 p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl"
+              >
+                <div className="flex justify-between items-center mb-3">
+                  <span className="bg-red-100 text-red-600 text-sm font-semibold px-3 py-1 rounded-full">
+                    {incident.type}
+                  </span>
+                  <span className="text-gray-500 text-sm">
+                    {new Date(incident.feedbackDate).toLocaleDateString()}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-800 mb-2">
+                  {incident.title}
+                </h3>
+              </div>
             ))}
           </div>
-        </div> */}
-<div className="mb-6">
-  <h2 className="text-xl font-semibold text-gray-800 mb-4">Crucial Incidents</h2>
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    {crucialIncidents.map((incident) => (
-      <div
-        key={incident.ins_id}
-        className="bg-blue-100 p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl"
-      >
-        <div className="flex justify-between items-center mb-3">
-          <span className="bg-red-100 text-red-600 text-sm font-semibold px-3 py-1 rounded-full">
-            {incident.type}
-          </span>
-          <span className="text-gray-500 text-sm">
-            {new Date(incident.feedbackDate).toLocaleDateString()}
-          </span>
         </div>
-        <h3 className="text-lg font-bold text-gray-800 mb-2">
-          {incident.title}
-        </h3>
-       
-      </div>
-    ))}
-  </div>
-</div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 ">
           <div className="grid grid-cols-1 gap-6">
-            
             <div className="bg-white p-6 rounded-lg shadow-lg text-gray-900">
               <h3 className="text-2xl font-semibold mb-6 text-gray-800">
                 Incidents by Priority
@@ -150,7 +137,7 @@ const Dashboard = () => {
                 Incidents by Department
               </h3>
               <PieChart width={620} height={620}>
-                <Pie
+                {/* <Pie
                   data={pieData}
                   dataKey="value"
                   nameKey="name"
@@ -163,6 +150,20 @@ const Dashboard = () => {
                   {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={getRandomColor()} />
                   ))}
+                </Pie> */}
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={200}
+                  fill="#82ca9d"
+                  label
+                >
+                  {pieData.map((entry) => (
+                    <Cell key={entry.name} fill={getRandomColor()} />
+                  ))}
                 </Pie>
                 <Tooltip />
                 <Legend />
@@ -174,8 +175,6 @@ const Dashboard = () => {
     </div>
   );
 };
-
-
 
 const getRandomColor = () => {
   const letters = "0123456789ABCDEF";
