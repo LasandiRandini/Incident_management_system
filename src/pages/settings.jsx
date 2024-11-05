@@ -129,7 +129,7 @@ function App() {
   };
 
   return (
-    <div className="container p-6 h-screen w-full bg-customColor rounded-lg shadow-lg mx-auto ">
+    <div className=" p-6  bg-customColor rounded-lg shadow-lg mx-auto ">
       <div className="p-4 w-full bg-white rounded-lg shadow-lg">
       {/* Error Handling */}
       {error && <p className="text-red-500">{error}</p>}

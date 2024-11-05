@@ -7,6 +7,11 @@ const TableComponent = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showModal, setShowModal] = useState(false); 
+  const [selectedIncidentId, setSelectedIncidentId] = useState(null);
+ 
+  const [employees, setEmployees] = useState([]); 
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState(null); 
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -21,13 +26,47 @@ const TableComponent = () => {
     fetchData();
   }, []);
 
+ 
+  const fetchEmployees = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/employees/all"); 
+      setEmployees(response.data);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    }
+  };
+
+  const handleEditClick = (incidentId, currentEmployeeId) => {
+    setSelectedIncidentId(incidentId);  
+    setSelectedEmployeeId(currentEmployeeId); 
+    setShowModal(true);  
+    fetchEmployees(); 
+  };
+
+  const handleSave = async () => {
+    try {
+      
+      await axios.put(`http://localhost:8080/api/incidents/${selectedIncidentId}/update-employee`, {
+        employeeId: selectedEmployeeId,
+      });
+      
+      const updatedData = data.map(item => 
+        item.incidentId === selectedIncidentId ? { ...item, employeeId: selectedEmployeeId } : item
+      );
+      setData(updatedData);
+      setShowModal(false);  
+    } catch (error) {
+      console.error("Error updating employee:", error);
+    }
+  };
+
   const handleStatusChange = async (incidentId, newStatus) => {
     try {
       await axios.put(`http://localhost:8080/api/incidents/${incidentId}/status`, { status: newStatus });
       const updatedData = data.map(item => 
         item.incidentId === incidentId ? { ...item, status: newStatus } : item
       );
-      setData(updatedData); // Optionally update the local state to reflect the new status
+      setData(updatedData); 
     } catch (error) {
       console.error("Error updating status:", error);
     }
@@ -43,7 +82,7 @@ const TableComponent = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/incidents/${id}`);
-      setData(data.filter(item => item.incidentId !== id)); // Remove deleted item from local state
+      setData(data.filter(item => item.incidentId !== id)); 
     } catch (error) {
       console.error("Error deleting item:", error);
     }
@@ -140,7 +179,12 @@ const TableComponent = () => {
                   <td className="border border-gray-300 p-2 text-center">{item.employeeEmail || 'N/A'}</td>
                   <td className="border border-gray-300 p-2 text-center">{item.departmentName || 'N/A'}</td>
                   <td className="border border-gray-300 p-2 text-center">
-                    <button className="text-yellow-500 border border-yellow-500  rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition  mb-2" onClick={() => window.location.href = `/edit_incident/${item.incidentId}`}>Edit</button>
+                  <button 
+                      className="text-yellow-500 border border-yellow-500  rounded px-2 py-1 hover:bg-yellow-500 hover:text-white transition mb-2"
+                      onClick={() => handleEditClick(item.incidentId, item.employeeId)}
+                    >
+                      Edit
+                    </button>
                     <button className="text-red-500 border border-red-500  rounded px-2 py-1 hover:bg-red-500 hover:text-white transition" onClick={() => handleDelete(item.incidentId)}>Delete</button>
                   </td>
                 </tr>
@@ -148,6 +192,39 @@ const TableComponent = () => {
             </tbody>
           </table>
         </div>
+        {showModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+              <h3 className="text-lg font-semibold mb-4">Edit Employee Name</h3>
+              <select
+                className="border border-gray-300 p-2 rounded w-full mb-4"
+                value={selectedEmployeeId}
+                onChange={(e) => setSelectedEmployeeId(e.target.value)}
+              >
+                <option value="">Select Employee</option>
+                {employees.map((employee) => (
+                  <option key={employee.emp_id} value={employee.emp_id}>
+                    {employee.emp_name}
+                  </option>
+                ))}
+              </select>
+              <div className="flex justify-end space-x-3">
+                <button 
+                  className="bg-green-500 text-white px-4 py-2 rounded"
+                  onClick={handleSave}
+                >
+                  Save
+                </button>
+                <button 
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="flex justify-between items-center mt-4">
           <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>

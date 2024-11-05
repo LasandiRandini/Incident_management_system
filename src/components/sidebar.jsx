@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Typography } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';  // Add useLocation
+import { useNavigate, useLocation } from 'react-router-dom';  
 import SLT from '../assets/SLT_logo.png';
 import SLT2 from '../assets/SLT_logo2.png';
 import Dashboard from '../assets/dashboards.svg';
@@ -14,9 +14,9 @@ const drawerWidth = 240;
 
 const SideBar = ({ toggleSidebar }) => {
   const navigate = useNavigate();
-  const location = useLocation();  // Use this to track the current location
+  const location = useLocation();  
 
-  // Sidebar items
+  
   const items = [
     { text: 'Dashboard', src: Dashboard, path: '/dashboard' },
     { text: 'Incidents Management', src: Incident, path: '/incidentmain' },
@@ -25,7 +25,7 @@ const SideBar = ({ toggleSidebar }) => {
     { text: 'Settings', src: Setting, path: '/settings' },
   ];
 
-  // Get active route on page load
+
   const getSelectedIndex = () => {
     return items.findIndex(item => item.path === location.pathname);
   };
@@ -33,7 +33,7 @@ const SideBar = ({ toggleSidebar }) => {
   const [selectedIndex, setSelectedIndex] = useState(getSelectedIndex());
 
   useEffect(() => {
-    // When the location changes, update the selectedIndex
+  
     setSelectedIndex(getSelectedIndex());
   }, [location.pathname]);
 
@@ -52,13 +52,13 @@ const SideBar = ({ toggleSidebar }) => {
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
-          background: 'linear-gradient(to bottom, #0F407B, #24AF77)', // Gradient background
-          color: 'white', // Ensure text color is white
-          overflow: 'hidden', // Hide the scrollbar
+          background: 'linear-gradient(to bottom, #0F407B, #24AF77)', 
+          color: 'white', 
+          overflow: 'hidden', 
         },
       }}
     >
-      {/* Logo Section */}
+      
       <Box
         component="img"
         src={SLT}
@@ -70,7 +70,7 @@ const SideBar = ({ toggleSidebar }) => {
         }}
       />
 
-      {/* Sidebar Items */}
+   
       <List>
         {items.map((item, index) => (
             <ListItem
@@ -81,10 +81,10 @@ const SideBar = ({ toggleSidebar }) => {
             sx={{
               color: selectedIndex === index ? 'white' : '#CCC',
               backgroundColor: selectedIndex === index ? '#485DFF' : 'transparent',
-              padding: '10px 20px', // Adjust padding here for left and right spaces
-              borderRadius: '10px', // Slightly reduce the border-radius
-              margin: '4px auto', // Add auto to center it
-              maxWidth: '200px', // Restrict the width of the highlighted item
+              padding: '10px 20px', 
+              borderRadius: '10px', 
+              margin: '4px auto', 
+              maxWidth: '200px', 
               '&:hover': {
                 backgroundColor: '#485DFF',
               },
@@ -106,42 +106,12 @@ const SideBar = ({ toggleSidebar }) => {
             />
           </ListItem>
                   
-        //   <ListItem
-        //     key={item.text}
-        //     button
-        //     selected={selectedIndex === index}
-        //     onClick={() => handleListItemClick(index, item.path)}
-        //     sx={{
-        //       color: selectedIndex === index ? 'white' : '#CCC',
-        //       backgroundColor: selectedIndex === index ? '#485DFF' : 'transparent',
-        //       padding: '10px 5px',
-        //       borderRadius: '15px',
-        //       margin: '4px ',
-        //       '&:hover': {
-        //         backgroundColor: '#485DFF',
-        //       },
-        //     }}
-        //   >
-        //     <ListItemIcon sx={{ color: selectedIndex === index ? 'white' : '#CCC' }}>
-        //       <img
-        //         src={item.src}
-        //         alt={`${item.text} icon`}
-        //         style={{
-        //           width: '24px',
-        //           height: '24px',
-        //           filter: selectedIndex === index ? 'invert(1)' : 'none',
-        //         }}
-        //       />
-        //     </ListItemIcon>
-        //     <ListItemText
-        //       primary={<Typography sx={{ fontWeight: selectedIndex === index ? 'bold' : 'normal' }}>{item.text}</Typography>}
-        //     />
-        //   </ListItem>
+       
 
         ))}
       </List>
 
-      {/* Logo Section */}
+     
       <Box
         component="img"
         src={SLT2}
@@ -157,3 +127,4 @@ const SideBar = ({ toggleSidebar }) => {
 };
 
 export default SideBar;
+

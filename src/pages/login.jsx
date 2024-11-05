@@ -1,30 +1,48 @@
-
 import { useState } from 'react';
 import logo from '../assets/SLT_logo.png';
 import image1 from '../assets/image 1.png';
+import axios from 'axios';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login submitted:', { email, password });
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/admin/login', {
+        username,
+        password
+      });
+      console.log('Login successful:', response.data);
+      setSuccess("Login successful!");
+      setError(null); 
+
+      
+      window.location.href = '/dashboard';
+    } catch (error) {
+      console.error('Login error:', error.response?.data || error.message);
+      setError('Failed to log in. Please check your credentials.');
+      setSuccess(null); 
+    }
   };
 
   return (
     <div className="flex h-screen">
-      {/* Left Section - Hidden on small screens */}
+      
       <div
         className="hidden md:block w-1/2 bg-cover bg-center relative"
         style={{ backgroundImage: `url(${image1})` }} 
       >
-        {/* Gradient overlay */}
+        
         <div className="absolute inset-0 bg-gradient-to-b from-[#0F407B] to-[#24AF77] opacity-80"></div>
 
-        {/* Content inside the overlay */}
+        
         <div className="relative flex flex-col justify-center items-center h-full text-white p-8">
-          {/* Logo */}
+          
           <img src={logo} alt="SLT Mobitel" className="mb-8 w-64" />
           <h1 className="text-4xl font-bold mb-4">Welcome to SLT Mobitel</h1>
           <button
@@ -36,18 +54,21 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Right Section - Full width on small screens, half width on medium and larger screens */}
       <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100">
         <div className="bg-white p-10 rounded-lg shadow-md w-full md:w-96">
           <h2 className="text-3xl font-bold text-center mb-6">Sign in</h2>
+          
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          {success && <p className="text-green-500 text-center">{success}</p>}
+          
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">Username</label>
               <input
                 type="text"
                 placeholder="Enter your User Name"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
               />
             </div>
@@ -71,7 +92,6 @@ const Login = () => {
             <button
               type="submit"
               className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-700"
-              onClick={() => window.location.href = '/dashboard'}
             >
               Login
             </button>
@@ -87,7 +107,7 @@ const Login = () => {
               </div>
             </div>
           </form>
-          {/* Add navigation link to the registration page */}
+       
           <div className="text-center mt-6">
             <p className="text-gray-500">
               Don’t have an account? <a href="/" className="text-blue-500">Register</a>
@@ -102,74 +122,75 @@ const Login = () => {
 export default Login;
 
 // import { useState } from 'react';
-// import axios from 'axios';
+
 // import logo from '../assets/SLT_logo.png';
 // import image1 from '../assets/image 1.png';
+// import axios from 'axios';
 
 // const Login = () => {
-//   const [email, setEmail] = useState('');
+//   const [username, setUsername] = useState('');
 //   const [password, setPassword] = useState('');
-//   const [errorMessage, setErrorMessage] = useState('');
+//   const [error, setError] = useState(null);
+//   const [success, setSuccess] = useState(null);
+ 
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
-    
 //     try {
-//       const response = await axios.post('http://localhost:9090/api/admins/login', {
-//         username: email,
-//         password: password
+//       const response = await axios.post('http://localhost:8080/api/admin/login', {
+//         username,
+//         password
 //       });
+//       console.log('Login successful:', response.data);
+//       setSuccess('Login successful!');
+//       setError(null);
 
-//       if (response.data === 'Login successful') {
-//         window.location.href = '/dashboard'; // Redirect on successful login
-//       } else {
-//         setErrorMessage('Invalid credentials');
-//       }
+//       window.location.href = '/dashboard';
 //     } catch (error) {
-//       setErrorMessage(error.response.data); // Display error from the server
+//       console.error('Login error:', error.response?.data || error.message);
+//       setError('Failed to log in. Please check your credentials.');
+//       setSuccess(null);
 //     }
 //   };
 
-//   const handleGoogleLogin = () => {
-//     window.location.href = 'http://localhost:9090/oauth2/authorization/google';
+//   const handleGoogleLoginRedirect = () => {
+   
+//     window.location.href = 'http://localhost:8080/api/auth/google';
 //   };
 
 //   return (
 //     <div className="flex h-screen">
-//       {/* Left Section - Hidden on small screens */}
 //       <div
 //         className="hidden md:block w-1/2 bg-cover bg-center relative"
-//         style={{ backgroundImage: `url(${image1})` }} 
+//         style={{ backgroundImage: `url(${image1})` }}
 //       >
-//         {/* Gradient overlay */}
 //         <div className="absolute inset-0 bg-gradient-to-b from-[#0F407B] to-[#24AF77] opacity-80"></div>
-
-//         {/* Content inside the overlay */}
 //         <div className="relative flex flex-col justify-center items-center h-full text-white p-8">
-//           {/* Logo */}
 //           <img src={logo} alt="SLT Mobitel" className="mb-8 w-64" />
 //           <h1 className="text-4xl font-bold mb-4">Welcome to SLT Mobitel</h1>
 //           <button
 //             className="border border-white px-6 py-2 rounded-full"
-//             onClick={() => window.location.href = '/'}  
+//             onClick={() => window.location.href = '/'}
 //           >
 //             Sign up
 //           </button>
 //         </div>
 //       </div>
 
-//       {/* Right Section */}
 //       <div className="w-full md:w-1/2 flex justify-center items-center bg-gray-100">
 //         <div className="bg-white p-10 rounded-lg shadow-md w-full md:w-96">
 //           <h2 className="text-3xl font-bold text-center mb-6">Sign in</h2>
+//           {error && <p className="text-red-500 text-center">{error}</p>}
+//           {success && <p className="text-green-500 text-center">{success}</p>}
+
 //           <form onSubmit={handleSubmit}>
 //             <div className="mb-4">
 //               <label className="block text-gray-700 mb-2">Username</label>
 //               <input
 //                 type="text"
 //                 placeholder="Enter your User Name"
-//                 value={email}
-//                 onChange={(e) => setEmail(e.target.value)}
+//                 value={username}
+//                 onChange={(e) => setUsername(e.target.value)}
 //                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
 //               />
 //             </div>
@@ -183,7 +204,6 @@ export default Login;
 //                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
 //               />
 //             </div>
-//             {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
 //             <div className="flex justify-between items-center mb-6">
 //               <label className="inline-flex items-center">
 //                 <input type="checkbox" className="form-checkbox" />
@@ -197,22 +217,21 @@ export default Login;
 //             >
 //               Login
 //             </button>
-//             <div className="text-center mt-4">
-//               <p className="text-gray-500">or continue with</p>
-//               <div className="flex justify-center space-x-4 mt-5">
-//                 <button>
-//                   <img src="https://cdn-icons-png.flaticon.com/512/174/174848.png" alt="Facebook" className="w-8 h-8" />
-//                 </button>
-               
-//                 <div className="flex justify-center space-x-4 mt-4">
-//           <button onClick={handleGoogleLogin}>
-//             <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Google" className="w-8 h-8" />
-//           </button>
-//         </div>
-//               </div>
-//             </div>
 //           </form>
-//           {/* Add navigation link to the registration page */}
+
+//           <div className="text-center mt-4">
+//             <p className="text-gray-500">or continue with</p>
+//             <div className="flex justify-center space-x-4 mt-4">
+//               <button>
+//                 <img src="https://cdn-icons-png.flaticon.com/512/174/174848.png" alt="Facebook" className="w-8 h-8" />
+//               </button>
+//               <button onClick={handleGoogleLoginRedirect} className="flex items-center">
+//                 <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Google Chrome" className="w-8 h-8 mr-2" />
+//                 <span>Sign in with Google</span>
+//               </button>
+//             </div>
+//           </div>
+
 //           <div className="text-center mt-6">
 //             <p className="text-gray-500">
 //               Don’t have an account? <a href="/" className="text-blue-500">Register</a>

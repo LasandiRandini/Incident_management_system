@@ -1,176 +1,177 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
-
-import { useState } from "react";
-
-const ReportTable = () => {
-  
-  const [data] = useState([
-    {
-      id: 1,
-      incident: "Signal Interapt",
-      customerName: "Name 1",
-      customerTel: "0746998198",
-      customerEmail: "customer1@test.com",
-      incidentDescription: "Test Signal",
-      assignedEmployee: "Nimal",
-      status: "Assigned",
-    },
-    {
-      id: 2,
-      incident: "Signal Interapt",
-      customerName: "Name 2",
-      customerTel: "0746998198",
-      customerEmail: "customer2@test.com",
-      incidentDescription: "Signal Intatrapt",
-      assignedEmployee: "Kmal",
-      status: "Not Assigned",
-    },
-    {
-      id: 3,
-      incident: "Signal Interapt",
-      customerName: "Name 3",
-      customerTel: "0746998198",
-      customerEmail: "customer3@test.com",
-      incidentDescription: "Signal Intatrapt",
-      assignedEmployee: "Nimal",
-      status: "Completed",
-    },
-    {
-      id: 4,
-      incident: "Signal Interapt",
-      customerName: "Name 4",
-      customerTel: "0746998198",
-      customerEmail: "customer4@test.com",
-      incidentDescription: "Test Brand",
-      assignedEmployee: "brand_manager",
-      status: "Not Assigned",
-    },
-    {
-      id: 5,
-      incident: "Signal Interapt",
-      customerName: "Name 5",
-      customerTel: "0746998198",
-      customerEmail: "customer5@test.com",
-      incidentDescription: "Test Brand",
-      assignedEmployee: "brand_manager",
-      status: "Assigned",
-    },
-  ]);
-
-  const [searchQuery, setSearchQuery] = useState("");
+const TableComponent = () => {
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const filteredData = data.filter(item =>
-    item.incident.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.customerTel.includes(searchQuery) ||
-    item.customerEmail.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.incidentDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.assignedEmployee.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+ 
+  const [selectedEmployee, setSelectedEmployee] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
   
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/incidents/all");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const toggleDescription = (incidentId) => {
+    const updatedData = data.map(item => 
+      item.incidentId === incidentId ? { ...item, showFullDescription: !item.showFullDescription } : item
+    );
+    setData(updatedData);
+  };
+
+  // Filter based on employee, department, and search query
+  const filteredData = data.filter(item =>
+    (selectedEmployee === "" || item.employeeName?.toLowerCase().includes(selectedEmployee.toLowerCase())) &&
+    (selectedDepartment === "" || item.departmentName?.toLowerCase().includes(selectedDepartment.toLowerCase())) 
+    
+  );
+
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  
+
+  // Download PDF of filtered data
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(14);
+    doc.text("Filtered Incident Data", 14, 16);
+
+    const headers = [['Incident ID', 'Title', 'Description', 'Employee Name', 'Employee Tel.', 'Employee Email', 'Department']];
+    
+    const dataRows = filteredData.map(item => [
+      item.incidentId,
+      item.title,
+      item.description,
+      item.employeeName || 'N/A',
+      item.employeeTelNo || 'N/A',
+      item.employeeEmail || 'N/A',
+      item.departmentName || 'N/A'
+    ]);
+
+    // Add table to the PDF
+    doc.autoTable({
+      startY: 22,
+      head: headers,
+      body: dataRows,
+      theme: 'grid',
+      headStyles: { fillColor: [49, 181, 88] },
+      styles: { fontSize: 10 },
+    });
+
+    // Save the PDF
+    doc.save('filtered_incidents.pdf');
+  };
 
   return (
-    <div className="p-6 h-full w-full bg-customColor rounded-lg shadow-lg">
+    <div className="p-6 w-full bg-customColor shadow-lg">
       <div className="flex space-x-3 bg-[#49B558] text-white p-3 mb-5 rounded-t-lg rounded-b-lg">
-        <h1><b>Reports</b></h1>
+        <h1><b>Incident Management</b></h1>
       </div>
-      <div className="p-4 w-full bg-white rounded-lg shadow-lg">
-        {/* Add Button */}
-        <div className="flex justify-between items-center mb-4">
-       
 
-          {/* Filter Section */}
-          <div className="flex items-center space-x-3">
-            <div>
-              <label htmlFor="show" className="mr-2">Show</label>
-              <select id="show" className="border border-gray-300 p-1 rounded">
-                <option>10</option>
-                <option>20</option>
-                <option>30</option>
-              </select>
-            </div>
-            <div className="relative">
-              <input type="text" placeholder="Search" className="border border-gray-300 p-2 rounded w-64"
-                   value={searchQuery} 
-                   onChange={(e) => setSearchQuery(e.target.value)}  />
-            </div>
+      <div className="p-4 w-full bg-white rounded-lg shadow-lg mb-10">
+
+        <div className="flex justify-between items-center mb-4">
+          
+          
+        </div>
+
+        {/* Employee Filter */}
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <label htmlFor="employeeFilter" className="mr-2">Filter by Employee</label>
+            <input
+              id="employeeFilter"
+              type="text"
+              className="border border-gray-300 p-2 rounded w-64"
+              placeholder="Enter employee name"
+              value={selectedEmployee}
+              onChange={(e) => setSelectedEmployee(e.target.value)}
+            />
+          </div>
+
+          {/* Department Filter */}
+          <div>
+            <label htmlFor="departmentFilter" className="mr-2">Filter by Department</label>
+            <input
+              id="departmentFilter"
+              type="text"
+              className="border border-gray-300 p-2 rounded w-64"
+              placeholder="Enter department"
+              value={selectedDepartment}
+              onChange={(e) => setSelectedDepartment(e.target.value)}
+            />
           </div>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300 border-rounded-lg text-left">
+          <table className="w-full border-collapse border border-gray-300 text-center">
             <thead>
               <tr>
-                <th className="border border-gray-300 p-2 rounded-tl-lg">#</th>
-                <th className="border border-gray-300 p-2">Incident</th>
-                <th className="border border-gray-300 p-2">Customer Name</th>
-                <th className="border border-gray-300 p-2">Customer Tel. No</th>
-                <th className="border border-gray-300 p-2">Customer Email</th>
-                <th className="border border-gray-300 p-2">Incident Description</th>
-                <th className="border border-gray-300 p-2">Assigned Employee</th>
-                <th className="border border-gray-300 p-2 rounded-tr-lg">Progress Status</th>
+                <th className="border border-gray-300 p-2">#</th>
+                <th className="border border-gray-300 p-2">Title</th>
+                <th className="border border-gray-300 p-2">Description</th>
+                <th className="border border-gray-300 p-2">Employee Name</th>
+                <th className="border border-gray-300 p-2">Employee Tel.</th>
+                <th className="border border-gray-300 p-2">Employee Email</th>
+                <th className="border border-gray-300 p-2">Department</th>
               </tr>
             </thead>
             <tbody>
-              {paginatedData.map((item, index) => (
-                <tr key={item.id}>
-                  <td className={`border border-gray-300 p-2 text-center ${index === paginatedData.length - 1 ? 'rounded-bl-lg' : ''}`}>
-                    {item.id}
+              {paginatedData.map((item) => (
+                <tr key={item.incidentId}>
+                  <td className="border border-gray-300 p-2 text-center">{item.incidentId}</td>
+                  <td className="border border-gray-300 p-2 text-center">{item.title}</td>
+                  <td className="border border-gray-300 p-2 text-center">
+                    {item.showFullDescription
+                      ? item.description
+                      : `${item.description.slice(0, 50)}...`}
+                    <button 
+                      className="text-blue-500 ml-2"
+                      onClick={() => toggleDescription(item.incidentId)}
+                    >
+                      {item.showFullDescription ? "Show less" : "Read more"}
+                    </button>
                   </td>
-                  <td className="border border-gray-300 p-2 text-center">{item.incident}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.customerName}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.customerTel}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.customerEmail}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.incidentDescription}</td>
-                  <td className="border border-gray-300 p-2 text-center">{item.assignedEmployee}</td>
-                  <td className={`border border-gray-300 p-2 text-center ${index === paginatedData.length - 1 ? 'rounded-br-lg' : ''}`}>
-                    <span className={`px-2 py-1 rounded ${getStatusClass(item.status)}`}>
-                      {item.status}
-                    </span>
-                  </td>
+                  <td className="border border-gray-300 p-2 text-center">{item.employeeName || 'N/A'}</td>
+                  <td className="border border-gray-300 p-2 text-center">{item.employeeTelNo || 'N/A'}</td>
+                  <td className="border border-gray-300 p-2 text-center">{item.employeeEmail || 'N/A'}</td>
+                  <td className="border border-gray-300 p-2 text-center">{item.departmentName || 'N/A'}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-
+       
         {/* Pagination */}
-        <div className="flex justify-center mt-4">
-          <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} className="px-3 py-1 mx-1 bg-gray-200 rounded">Previous</button>
-          {[...Array(totalPages).keys()].map((page) => (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page + 1)}
-              className={`px-3 py-1 mx-1 ${currentPage === page + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-            >
-              {page + 1}
-            </button>
-          ))}
-          <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} className="px-3 py-1 mx-1 bg-gray-200 rounded">Next</button>
+        <div className="flex justify-between items-center mt-4">
+          <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
+          <span>{`Page ${currentPage} of ${totalPages}`}</span>
+          <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
         </div>
 
-        {/* Download Button */}
-        <div className="flex justify-end mt-4">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">Download</button>
+        {/* Download PDF Button */}
+        <div className="mt-4">
+          <button
+            onClick={downloadPDF}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+          >
+            Download Filtered Data as PDF
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-// Helper function to get status class based on the status
-const getStatusClass = (status) => {
-  switch (status) {
-    case 'Assigned': return 'bg-blue-500 text-white';
-    case 'Completed': return 'bg-green-500 text-white';
-    case 'Not Assigned': return 'bg-red-500 text-white';
-    default: return 'text-gray-500';
-  }
-};
-
-export default ReportTable;
+export default TableComponent;
