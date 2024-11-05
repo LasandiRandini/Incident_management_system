@@ -64,11 +64,16 @@ function ActionButton({ options = [], onSelect }) {
           horizontal: "right",
         }}
       >
-        {options.map((option, index) => (
+        {/* {options.map((option, index) => (
           <MenuItem key={index} onClick={() => handleSelect(option)}>
             {option.label}
           </MenuItem>
-        ))}
+        ))} */}
+        {options.map((option) => (
+  <MenuItem key={option.value} onClick={() => handleSelect(option)}>
+    {option.label}
+  </MenuItem>
+))}
       </Menu>
     </>
   );

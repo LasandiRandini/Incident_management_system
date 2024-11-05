@@ -7,7 +7,7 @@ const TabMenu = ({ tabs, activeTab, setActiveTab }) => {
         <h1><b>Incidents Management</b></h1>
       </div>
       <div>
-        {tabs.map((tab, index) => (
+        {/* {tabs.map((tab, index) => (
           <button
             key={index}
             className={`py-2 px-4 ${activeTab === index ? 'border-b-2 border-green-500' : ''}`}
@@ -15,7 +15,16 @@ const TabMenu = ({ tabs, activeTab, setActiveTab }) => {
           >
             {tab}
           </button>
-        ))}
+        ))} */}
+        {tabs.map((tab) => (
+  <button
+    key={tab} // Use tab text or a unique property as the key
+    className={`py-2 px-4 ${activeTab === tab ? 'border-b-2 border-green-500' : ''}`}
+    onClick={() => setActiveTab(tab)}
+  >
+    {tab}
+  </button>
+))}
       </div>
     </div>
   );
