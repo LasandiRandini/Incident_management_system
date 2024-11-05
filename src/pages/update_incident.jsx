@@ -152,7 +152,7 @@ const Form_3 = () => {
         </div>
       </div>
       <div className="mt-6">
-        <label className="block text-sm font-medium text-gray-700">Progress Status</label>
+        <label  htmlFor="progressStatus" className="block text-sm font-medium text-gray-700">Progress Status</label>
         <div className="mt-2 flex space-x-4">
           <div>
             <input type="radio" id="notAssigned" name="status" value="Not Assigned" className="mr-2" />
