@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider,Outlet } from "react-router-dom";
-import React, { useState } from "react";
+import  { useState } from "react";
 import Dashboardpage from "./pages/dashboard";
 import Sidebar from "./components/sidebar";
 import Navbar from "./components/navbar";
